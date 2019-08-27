@@ -10,13 +10,17 @@ def activate():
 
 
 def mk_insert_and_lookup(hs, count):
-    def insert_and_lookup(k):
-        if hasattr(hs, 'add'):
+    insert_and_lookup = None
+    if hasattr(hs, 'add'):
+        def ial(k):
             hs.add(k)
             hs.contains(k)
-        else:
+        insert_and_lookup = ial
+    else:
+        def ial(k):
             hs.insert(k)
-            hs.lookup(k)   
+            hs.lookup(k)
+        insert_and_lookup = ial
     
     def result():
         for i in range(count):
@@ -30,7 +34,7 @@ from math import log
 def hash_experiment(thing, low, high):
     activate()
     results = []
-    for f in range(6, 18):
+    for f in range(low, high):
         il = mk_insert_and_lookup(thing, 1 << f)
         trials = int(50000.0 / (1 << (f - 2)))
         tm = timeit.timeit(mk_insert_and_lookup(thing, 1 << f), number=trials)
