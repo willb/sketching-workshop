@@ -1,6 +1,5 @@
 numpy
 scipy
-cProfile
 altair==2.3.0
 vega==1.4.0
 pandas
